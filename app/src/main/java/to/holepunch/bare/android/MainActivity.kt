@@ -52,6 +52,7 @@ class MainActivity : ComponentActivity() {
             ipcMessageConsumer?.lifecycleScope = lifecycleScope
             ipcMessageConsumer?.startConsuming()
             homeViewModel = HomeViewModel(this.application, ipc!!)
+            homeViewModel.setDataProcessingService(dataProcessingService)
         } catch (e: Exception) {
             throw RuntimeException(e)
         }

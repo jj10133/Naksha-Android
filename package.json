@@ -28,5 +28,8 @@
     "hypercore": "^11.8.0",
     "hypercore-blob-server": "^1.9.1",
     "hyperswarm": "^4.11.7"
+  },
+  "overrides": {
+    "hypercore-byte-stream": "^2.0.2"
   }
 }

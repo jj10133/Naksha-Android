@@ -10,6 +10,8 @@ import java.io.File
 
 
 class DataProcessingService(private val context: Context) {
+
+    var onStyleUpdated: (() -> Unit)? = null
     fun updateStyleWithURL(newUrl: String) {
         val styleFile = File(context.filesDir, "style.json")
 
@@ -44,6 +46,6 @@ class DataProcessingService(private val context: Context) {
 
         // Save back to file
         styleFile.writeText(Json { prettyPrint = true }.encodeToString(JsonObject.serializer(), updatedJson))
-
+        onStyleUpdated?.invoke()
     }
 }
