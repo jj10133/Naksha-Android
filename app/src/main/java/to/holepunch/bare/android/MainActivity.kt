@@ -10,10 +10,15 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import to.holepunch.bare.android.data.GenericAction
 import to.holepunch.bare.android.data_access.ipc.IPCMessageConsumer
+import to.holepunch.bare.android.data_access.ipc.IPCProvider
 import to.holepunch.bare.android.data_access.ipc.IPCUtils.writeAsync
 import to.holepunch.bare.android.processing.GenericMessageProcessor
-import to.holepunch.bare.android.services.DataProcessingService
 import to.holepunch.bare.android.ui.HomeView
 import to.holepunch.bare.android.viewmodel.HomeViewModel
 import to.holepunch.bare.kit.IPC
@@ -28,8 +33,7 @@ class MainActivity : ComponentActivity() {
     private var ipc: IPC? = null
     private lateinit var messageProcessor: GenericMessageProcessor
     private var ipcMessageConsumer: IPCMessageConsumer? = null
-    private lateinit var dataProcessingService: DataProcessingService
-    private lateinit var homeViewModel: HomeViewModel
+    private val homeViewModel: HomeViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,31 +44,29 @@ class MainActivity : ComponentActivity() {
             requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 0)
         }
 
-        dataProcessingService = DataProcessingService(this)
-        messageProcessor = GenericMessageProcessor(dataProcessingService)
-
         worklet = Worklet(null)
 
         try {
             worklet!!.start("/app.bundle", assets.open("app.bundle"), null)
             ipc = IPC(worklet)
+            IPCProvider.ipc = ipc
+
+            messageProcessor = GenericMessageProcessor(homeViewModel)
             ipcMessageConsumer = IPCMessageConsumer(ipc!!, messageProcessor)
             ipcMessageConsumer?.lifecycleScope = lifecycleScope
             ipcMessageConsumer?.startConsuming()
-            homeViewModel = HomeViewModel(this.application, ipc!!)
-            homeViewModel.setDataProcessingService(dataProcessingService)
         } catch (e: Exception) {
             throw RuntimeException(e)
         }
 
-        lifecycleScope.launch(Dispatchers.IO) {
+        lifecycleScope.launch {
+            copyStyleFileToInternalStorage()
             start()
-        }
-
-        copyStyleFileToInternalStorage()
-
-        setContent {
-            HomeView(homeViewModel)
+            withContext(Dispatchers.Main) {
+                setContent {
+                    HomeView()
+                }
+            }
         }
     }
 
@@ -87,38 +89,40 @@ class MainActivity : ComponentActivity() {
         worklet = null
     }
 
-    private fun copyStyleFileToInternalStorage() {
+    private suspend fun copyStyleFileToInternalStorage() {
         val styleFile = File(filesDir, "style.json")
 
         if (!styleFile.exists()) {
-            lifecycleScope.launch {
-                try {
-                    assets.open("style.json").use { inputStream ->
-                        FileOutputStream(styleFile).use { outputStream ->
-                            inputStream.copyTo(outputStream)
-                        }
-                    }
-                    withContext(Dispatchers.Main) {
-                        Log.d("MainActivity", "style.json copied to internal storage")
-                    }
-                } catch (e: Exception) {
-                    withContext(Dispatchers.Main) {
-                        Log.e("MainActivity", "Error copying style.json: ${e.message}")
+            try {
+                assets.open("style.json").use { inputStream ->
+                    FileOutputStream(styleFile).use { outputStream ->
+                        inputStream.copyTo(outputStream)
                     }
                 }
+                withContext(Dispatchers.Main) {
+                    Log.d("MainActivity", "style.json copied to internal storage")
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Log.e("MainActivity", "Error copying style.json: ${e.message}")
+                }
             }
+
         }
     }
 
     suspend fun start() {
-        val message = """
-        {
-            "action": "start",
-            "data": "$filesDir"
+        val dynamicData = buildJsonObject {
+            put("path", filesDir.path)
         }
-        """.trimIndent()
+        val message = GenericAction(
+            action = "start",
+            data = dynamicData
+        )
 
-        val byteBuffer = ByteBuffer.wrap(message.toByteArray(Charset.forName("UTF-8")))
+        val jsonString = Json.encodeToString(message) + "\n"
+
+        val byteBuffer = ByteBuffer.wrap(jsonString.toByteArray(Charset.forName("UTF-8")))
         ipc?.writeAsync(byteBuffer)
     }
 
