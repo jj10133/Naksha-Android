@@ -1,4 +1,4 @@
-package to.holepunch.bare.android.data
+package com.foss.naksha.android.data
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement

@@ -1,4 +1,4 @@
-package to.holepunch.bare.android.processing
+package com.foss.naksha.android.processing
 
 interface MessageProcessor {
     fun processMessage(message: String)

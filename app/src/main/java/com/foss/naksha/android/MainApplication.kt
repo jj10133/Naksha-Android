@@ -1,10 +1,10 @@
-package to.holepunch.bare.android
+package com.foss.naksha.android
 
 import android.app.Application
+import com.foss.naksha.android.di.appModule
+import com.foss.naksha.android.di.viewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
-import to.holepunch.bare.android.di.appModule
-import to.holepunch.bare.android.di.viewModel
 
 class MainApplication : Application() {
     override fun onCreate() {

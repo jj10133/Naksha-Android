@@ -1,11 +1,11 @@
-package to.holepunch.bare.android.processing
+package com.foss.naksha.android.processing
 
 import android.util.Log
+import com.foss.naksha.android.data.GenericAction
+import com.foss.naksha.android.viewmodel.HomeViewModel
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import to.holepunch.bare.android.data.GenericAction
-import to.holepunch.bare.android.viewmodel.HomeViewModel
 
 class GenericMessageProcessor(val homeViewModel: HomeViewModel) : MessageProcessor {
     override fun processMessage(message: String) {

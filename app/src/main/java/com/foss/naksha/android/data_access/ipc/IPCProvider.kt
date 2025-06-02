@@ -1,4 +1,4 @@
-package to.holepunch.bare.android.data_access.ipc
+package com.foss.naksha.android.data_access.ipc
 
 import to.holepunch.bare.kit.IPC
 

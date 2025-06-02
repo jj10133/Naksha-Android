@@ -1,9 +1,9 @@
-package to.holepunch.bare.android.di
+package com.foss.naksha.android.di
 
+import com.foss.naksha.android.data_access.ipc.IPCProvider
+import com.foss.naksha.android.viewmodel.HomeViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
-import to.holepunch.bare.android.data_access.ipc.IPCProvider
-import to.holepunch.bare.android.viewmodel.HomeViewModel
 
 
 val appModule = module {

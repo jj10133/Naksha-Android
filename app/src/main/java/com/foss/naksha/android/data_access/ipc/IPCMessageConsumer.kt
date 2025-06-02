@@ -1,12 +1,12 @@
-package to.holepunch.bare.android.data_access.ipc
+package com.foss.naksha.android.data_access.ipc
 
 import android.util.Log
 import androidx.lifecycle.LifecycleCoroutineScope
+import com.foss.naksha.android.data_access.ipc.IPCUtils.readStream
+import com.foss.naksha.android.processing.MessageProcessor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import to.holepunch.bare.android.data_access.ipc.IPCUtils.readStream
-import to.holepunch.bare.android.processing.MessageProcessor
 import to.holepunch.bare.kit.IPC
 
 class IPCMessageConsumer (

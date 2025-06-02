@@ -1,4 +1,4 @@
-package to.holepunch.bare.android
+package com.foss.naksha.android
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -7,6 +7,13 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
+import com.foss.naksha.android.data.GenericAction
+import com.foss.naksha.android.data_access.ipc.IPCMessageConsumer
+import com.foss.naksha.android.data_access.ipc.IPCProvider
+import com.foss.naksha.android.data_access.ipc.IPCUtils.writeAsync
+import com.foss.naksha.android.processing.GenericMessageProcessor
+import com.foss.naksha.android.ui.HomeView
+import com.foss.naksha.android.viewmodel.HomeViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -14,13 +21,6 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import to.holepunch.bare.android.data.GenericAction
-import to.holepunch.bare.android.data_access.ipc.IPCMessageConsumer
-import to.holepunch.bare.android.data_access.ipc.IPCProvider
-import to.holepunch.bare.android.data_access.ipc.IPCUtils.writeAsync
-import to.holepunch.bare.android.processing.GenericMessageProcessor
-import to.holepunch.bare.android.ui.HomeView
-import to.holepunch.bare.android.viewmodel.HomeViewModel
 import to.holepunch.bare.kit.IPC
 import to.holepunch.bare.kit.Worklet
 import java.io.File

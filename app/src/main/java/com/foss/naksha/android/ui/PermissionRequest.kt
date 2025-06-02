@@ -1,4 +1,4 @@
-package to.holepunch.bare.android.ui
+package com.foss.naksha.android.ui
 
 import android.Manifest
 import android.app.Activity
@@ -17,9 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
+import com.foss.naksha.android.viewmodel.HomeViewModel
 import org.koin.androidx.compose.koinViewModel
 import org.ramani.compose.LocationRequestProperties
-import to.holepunch.bare.android.viewmodel.HomeViewModel
 
 @Composable
 fun PermissionRequest(homeViewModel: HomeViewModel = koinViewModel()) {

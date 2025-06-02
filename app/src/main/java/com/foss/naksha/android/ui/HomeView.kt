@@ -1,4 +1,4 @@
-package to.holepunch.bare.android.ui
+package com.foss.naksha.android.ui
 
 import android.graphics.Color
 import android.location.Location
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import com.foss.naksha.android.viewmodel.HomeViewModel
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 import org.maplibre.android.location.modes.CameraMode
@@ -16,7 +17,6 @@ import org.maplibre.android.maps.Style
 import org.ramani.compose.CameraPosition
 import org.ramani.compose.LocationStyling
 import org.ramani.compose.MapLibre
-import to.holepunch.bare.android.viewmodel.HomeViewModel
 
 @Composable
 fun HomeView(homeViewModel: HomeViewModel = koinViewModel()) {

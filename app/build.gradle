@@ -6,12 +6,12 @@ plugins {
 }
 
 android {
-    namespace = "to.holepunch.bare.android"
+    namespace = "com.foss.naksha.android"
     compileSdk = 35
     ndkVersion = "27.2.12479018"
 
     defaultConfig {
-        applicationId = "to.holepunch.bare.android"
+        applicationId = "com.foss.naksha.android"
         minSdk = 33
         targetSdk = 35
         versionCode = 1
