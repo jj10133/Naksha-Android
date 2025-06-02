@@ -4,6 +4,7 @@
 build/
 prebuilds/
 node_modules/
+app/release/
 local.properties
 package-lock.json
 *.bundle
