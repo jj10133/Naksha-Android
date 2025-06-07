@@ -66,7 +66,7 @@ async function start(documentsPath) {
   })
 
   const topic = Hypercore.discoveryKey(key)
-  swarm.join(topic, { client: true, server: false })
+  swarm.join(topic)
 }
 
 async function getMapLink() {
